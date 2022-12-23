@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}YaCut - укоротитель ссылок{% endblock title %}
+{% block content %}
+  <main>
+    <section class="container my-5 px-4">
+      <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
+      <p class="text-center my-4">
+        Создайте короткую ссылку автоматически или предложите свой вариант
+      </p>
+      <div class="container">
+        <div class="row my-3">
+          <div class="col-sm">
+          </div>
+          <div class="col-sm">
+            <form method="POST" novalidate>
+            {{ form.csrf_token }}
+              <div>
+                <div>
+                 {{ form.original_link (class="form-control form-control-lg py-2 mb-3",
+                  placeholder=form.original_link.label.text) }}
+                  <p><span style="color:red">
+                    {% with messages = get_flashed_messages(category_filter=["empty_field_error"]) %}
+                      {% if messages %}
+                        {% for message in messages %}
+                          {{ message }}
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+                  </span></p>
+                </div>
+                <div>
+                  {{ form.custom_id (class="form-control form-control-lg py-2 mb-3",
+                  placeholder=form.custom_id.label.text) }}
+                  <p><span style="color:red">
+                    {% with messages = get_flashed_messages(category_filter=["not_unique_error"]) %}
+                      {% if messages %}
+                        {% for message in messages %}
+                          {{ message }}
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+                  </span></p>
+                </div>
+                {{ form.submit(class="btn btn-primary", value="Создать") }}
+              </div>
+            </form>
+          </div>
+          <div class="col-sm">
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row ">
+          <div class="col-sm">
+          </div>
+          <div class="col-sm">
+            <p class="text-center">
+            <h5 class="text-center">
+               {% if url %}
+                  Ваша новая ссылка готова:
+                  <a href="{{ url_for('redirect_from_short', short_id=url.short, _external=True) }}">
+                    {{ url_for('redirect_from_short', short_id=url.short, _external=True) }}</a>
+               {% endif %}
+          </h5>
+            </p>
+          </div>
+          <div class="col-sm">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock content %}
