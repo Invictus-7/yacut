@@ -10,9 +10,7 @@ def retrieve_obj(item, query):
 
 
 def check_short_id(short_id):
-    if retrieve_obj(URLMap.short, short_id).first() is None:
-        return True
-    return False
+    return retrieve_obj(URLMap.short, short_id).first() is None
 
 
 def get_unique_short_id():
